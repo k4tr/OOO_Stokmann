@@ -1,0 +1,79 @@
+﻿<Window x:Class="OOO_Sport_Products.View.AllOrder"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OOO_Sport_Products.View"
+        mc:Ignorable="d"
+        Title="AllOrder" Height="450" Width="800">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="#FFCEF8FF" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="79*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Image Grid.Column="0" Source="/Resources/icon.png" Height="80" Grid.RowSpan="2"/>
+            <TextBlock Text="Заказы" Grid.Column="1" Margin="189,31,110,8" FontFamily="ABeeZee" FontSize="16"/>
+            <Button x:Name="buttonNavigate" Background="#FF39C7DA"  Content="Назад" 
+      Grid.Column="2" Margin="20,14,20,13" Height="52"
+       FontFamily="Accuratist" FontSize="14"/>
+        </Grid>
+        <!--Функциональная часть-->
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <!--Список всех заказов-->
+            <ListView x:Name="lvOrders" Grid.Row="0"  >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Номер заказа" DisplayMemberBinding="{Binding OrderNumber}"/>
+                        <GridViewColumn Header="Дата заказа" DisplayMemberBinding="{Binding OrderDate}" />
+                        <GridViewColumn Header="Сумма заказа без скидки" DisplayMemberBinding="{Binding OrderPrice}"/>
+                        <GridViewColumn Header="Скидка в %" DisplayMemberBinding="{Binding OrderDiscountPerecent}"/>
+                        <GridViewColumn Header="ФИО получателя" DisplayMemberBinding="{Binding UserName}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <!--Структура выранного заказа-->
+            <ListView x:Name="lvSelectOrder" Grid.Row="2">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Сборка" DisplayMemberBinding="{Binding PCBuildName}"/>
+                        <GridViewColumn Header="Материнская плата" DisplayMemberBinding="{Binding Motherboards.MotherboardName}" />
+                        <GridViewColumn Header="Процессор" DisplayMemberBinding="{Binding Processors.ProcessorName}" />
+                        <GridViewColumn Header="Видеокарта" DisplayMemberBinding="{Binding Videocards.VideocardName}" />
+                        <GridViewColumn Header="Жесткий диск" DisplayMemberBinding="{Binding HardDrives.HardDriveName}" />
+                        <GridViewColumn Header="SSD" DisplayMemberBinding="{Binding SolidStateDrivers.SolidStateDriveName}" />
+                        <GridViewColumn Header="Блок питания" DisplayMemberBinding="{Binding PowerUnits.PowerUnitName}" />
+                        <GridViewColumn Header="Системный блок" DisplayMemberBinding="{Binding Frames.FrameName}" />
+                        <GridViewColumn Header="Кулер" DisplayMemberBinding="{Binding Coolers.CoolerName}" />
+                        <GridViewColumn Header="Описание" DisplayMemberBinding="{Binding PCBuildDescription}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="80"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="1.5*"/>
+            </Grid.ColumnDefinitions>
+        </Grid>
+    </Grid>
+</Window>

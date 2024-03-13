@@ -1,0 +1,85 @@
+﻿<Window x:Class="OOO_Sport_Products.View.OrderView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OOO_Sport_Products.View"
+        mc:Ignorable="d"
+        Title="OrderView" Height="450" Width="800">
+    <Grid>
+        <!--Макет окна-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="#FFCEF8FF">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="139*"/>
+                <ColumnDefinition Width="41*"/>
+            </Grid.ColumnDefinitions>
+            <Image Source="/Resources/icon.png"/>
+            <TextBlock Grid.Column="1" Text="Оформление заказа" Style="{StaticResource Title}" Height="34" Width="406"/>
+            <Button Grid.Column="2" x:Name="buttunback" Content="Назад" Style="{StaticResource Normal}" Background="#FFE0C7FF" Margin="10,10,10,10" Click="buttunback_Click" />
+        </Grid>
+        <Grid Grid.Row="1" Margin="0,0,0,-50">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="550"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions >
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <ListBox x:Name="listBoxOrders"  HorizontalContentAlignment="Stretch" Background="#f7f7f5" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="listBoxOrders_SelectionChanged" Margin="0,0,10,54" >
+                <ListBox.ItemTemplate>
+                    <DataTemplate >
+                        <Grid Background="{Binding ColorBrush}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" Source="{Binding ProductExtended.ProductPathPhoto}" Margin="0 0 10 0"/>
+                            <!--Описание товара-->
+                            <StackPanel Orientation="Vertical" Grid.Column="1">
+                                <TextBlock x:Name="tbName" Text="{Binding ProductExtended.Product.ProductName}" Style="{StaticResource Title}" HorizontalAlignment="Left"/>
+                                <TextBlock x:Name="tbDiscr" Text="{Binding ProductExtended.Product.ProductDescription}" HorizontalAlignment="Left" Width="400" TextWrapping="Wrap"/>
+                                <TextBlock x:Name="tbManufacturer" Text="{Binding ProductExtended.Product.Manufacture.ManufactureName, StringFormat=Бренд: \{0\}}"/>
+                                <TextBlock x:Name="tbCost" Text="{Binding ProductExtended.Product.ProductCost, StringFormat=Цена без скидки: \{0\} руб.}"/>
+                                <TextBlock x:Name="tbDiscount" Text="{Binding ProductExtended.Product.ProductDiscount, StringFormat=Скидка: \{0\} %}"/>
+                                <TextBlock x:Name="tbCostWithDiscount" Text="{Binding ProductExtended.ProductCostWithDisount, StringFormat=Цена со скидкой: \{0\} руб.}"/>
+                            </StackPanel>
+                            <!--Количество на складе-->
+                            <StackPanel Orientation="Vertical" Grid.Column="2"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <StackPanel Grid.Column="1" Grid.Row="1" Margin="20">
+                <TextBlock Style="{StaticResource Title}" Text="Инфо о заказе" Width="178" FontSize="18"/>
+                <TextBlock x:Name="tbFIO" Grid.Row="0" Text="ФИО пользователя"/>
+                <TextBlock x:Name="tbSumTotal"/>
+                <TextBlock x:Name="tbSumDiscount"/>
+                <TextBlock x:Name="tbSumTotalWithDiscount"/>
+                <TextBlock Name="tbStatus" Visibility="Collapsed" Text="Статус заказа: "/>
+                <ComboBox Visibility="Collapsed" x:Name="cbPoint"/>
+                <Button x:Name="btnMakeOrder" Content="Оформить заказ" Margin="10 20 10 20" Click="btnMakeOrder_Click"/>
+            </StackPanel>
+            <!--Верхняя строка для количества и ФИО-->
+            <!--
+            <StackPanel Grid.Column="1" Grid.Row="1" Margin="10">
+                <TextBlock x:Name="tbFIO" Text="Информация о заказе:" Style="{StaticResource Normal}" Width="230" Height="20"/>
+                <TextBlock x:Name="tbFIO1" Text="Сумма заказа:" Style="{StaticResource Normal}" Width="230" Height="20"/>
+                <TextBlock x:Name="tbFIO2" Text="Скидка:" Style="{StaticResource Normal}" Width="230" Height="20"/>
+                <TextBlock x:Name="tbFIO3" Text="Итого:" Style="{StaticResource Normal}" Width="230" Height="20"/>
+                <ComboBox Name="cbDiscount"/>
+            </StackPanel>-->
+        </Grid>
+        <!--Функциональная часть-->
+
+        <!--Заголовок-->
+
+        <!--Функциональная часть-->
+
+    </Grid>
+</Window>

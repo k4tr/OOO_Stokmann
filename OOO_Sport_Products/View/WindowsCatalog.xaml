@@ -1,0 +1,126 @@
+﻿<Window x:Class="OOO_Sport_Products.View.WindowsCatalog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OOO_Sport_Products.View"
+        mc:Ignorable="d"
+         Title="Каталог товаров" Height="600" Width="900" 
+        MinWidth="800" MinHeight="600" Loaded="Window_Loaded">
+
+    <Grid>
+        <!--Макет окна-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--Заголовок-->
+        <Grid Grid.Row="0" Background="#FFCEF8FF" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Image Grid.Column="0" Source="/Resources/icon.png" Height="80"/>
+            <TextBlock Style="{StaticResource Title}" Grid.Column="1" FontFamily="Angst Bold"><Run Text="Каталог "/><Run Language="ru-ru" Text="одежды"/></TextBlock>
+            <Button x:Name="buttonNavigate" Background="#FFE0C7FF"  Content="Назад" 
+                          Grid.Column="2" Margin="64,14,20,14" Height="52"
+                          Click="Exit_Click" FontFamily="Advent Pro" FontSize="16"/>
+        </Grid>
+
+        <!--Содержательная часть-->
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="8*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="buttonOrder" Visibility="Collapsed" Content="Перейти к заказу" Style="{StaticResource Normal}"  Grid.Column="1" Grid.Row="1" VerticalAlignment="Top"  Margin="15,294,15,0"  Background="#FFE0C7FF" Click="buttonOrder_Click" FontFamily="Advent Pro" />
+            <!--Верхняя строка для количества и ФИО-->
+            <TextBlock x:Name="tbCount" Grid.Column="0" Text="Количество" VerticalAlignment="Center" Style="{StaticResource Normal}" Margin="287,0,265,0" FontFamily="Angst Bold" />
+            <TextBlock x:Name="tbFIO" Grid.Column="1" Grid.Row="0" Text="ФИО" VerticalAlignment="Center" Style="{StaticResource Title}" FontFamily="Angst Bold"/>
+
+            <!--Для фильтрации и поиска. Правая панель-->
+            <StackPanel Grid.Column="1" Margin="0,56,0,186" Grid.RowSpan="2">
+                <TextBlock Text="ФИЛЬТРЫ"  FontFamily="Angst Bold" Width="203" FontWeight="Bold"/>
+                <TextBlock Text="Сортировка по стоимости"  Width="207" RenderTransformOrigin="0.992,0.807" FontFamily="Advent Pro" FontSize="18"/>
+                <ComboBox Name="comboSort" Grid.Column="0"  HorizontalAlignment="Right" Width="207" Margin="5" SelectionChanged="comboSort_SelectionChanged" >
+                    <!--Фиксированные элементы в ComboBox-->
+                    <TextBlock>По возрастанию</TextBlock>
+                    <TextBlock>По убыванию</TextBlock>
+                </ComboBox>
+
+                <TextBox Text="******"  Visibility="Hidden"/>
+                <TextBlock Text="По скидке" Width="197" FontFamily="Advent Pro" FontSize="18"/>
+                <ComboBox Name="comboSale" Grid.Column="1"
+                                          HorizontalAlignment="Right" Width="207" Margin="5" 
+                                          SelectionChanged="comboSale_SelectionChanged">
+                    <!--Фиксированные элементы в ComboBox-->
+                    <TextBlock>Все диапазоны</TextBlock>
+                    <TextBlock>0-3%</TextBlock>
+                    <TextBlock>3-5%</TextBlock>
+                    <TextBlock>6% и более</TextBlock>
+                </ComboBox>
+                <TextBox Text="******" Style="{StaticResource Normal}" Visibility="Hidden"/>
+                <TextBlock Width="200" FontFamily="Advent Pro" FontSize="18"><Run Text="Поиск по н"/><Run Text="азвани"/><Run Language="ru-ru" Text="ю"/></TextBlock>
+                <!--Настройка ComboBox кодом из БД-->
+                <TextBox x:Name="search" Grid.Column="3" HorizontalAlignment="Right" Width="201" Margin="10" TextChanged="search_TextChanged" Height="24"/>
+                <TextBox Text="******"  Visibility="Hidden"/>
+
+            </StackPanel>
+
+            <!--Отображение списка товаров. Левая панель-->
+            <ListBox x:Name="listBoxProducts" Grid.Row="1" Grid.Column="0" 
+                            HorizontalContentAlignment ="Stretch" SelectionChanged="listBoxProducts_SelectionChanged">
+                <!--Задание структуры одного элемента списка-->
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid  Background="{Binding Path=ColorFocused}">
+                            <!--цвета скидки-->
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <!--Изображение товара в рамке-->
+                            <Image Source="{Binding Path=ProductPathPhoto}" Stretch="Uniform" Height="100" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+                            <!--<Image Grid.Column="0"  Source="{Binding Path=ProductPathPhoto}" Margin="10,10,10,10"/>-->
+
+                            <!--Информация о товаре-->
+                            <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10">
+                                <TextBlock  x:Name="tbName" Text="{Binding Path=ProductName}" FontSize="20" FontWeight="Bold"/>
+                                <TextBlock  x:Name="tbDescription" TextWrapping="Wrap" Text="{Binding Path=ProductDescription}" />
+                                <TextBlock  x:Name="tbManufacture" TextWrapping="Wrap" Text="{Binding Path=Manufacture.ManufactureName, StringFormat='Бренд: {0}'}" />
+                                <TextBlock x:Name="tbCost" Text="{Binding Path=ProductCost, StringFormat='Цена товара: {0}'}"/>
+                                <!--Текущая скидка может не отображаться, если равна 0-->
+                                <TextBlock x:Name="tbDiscount" Text="{Binding Path=ProductDiscount, StringFormat='Скидка: {0} %'}" />
+                                <!--Visibility="{Binding ProductCostDiscountVisibility}"                                                                                                                                                                                                                            -->
+                                <!--Цена товара со скидкой может не отображаться, если скидка равна 0-->
+                                <TextBlock Visibility="{Binding ProductCostDiscountVisibility}">  
+                                    <Run Text="Цена со скидкой: "/> 
+                                    <Run  x:Name="tbDiscountCost" Text="{Binding ProductDiscountCost}" />
+                                </TextBlock>
+                               
+                                <StackPanel.ContextMenu>
+                                    <ContextMenu x:Name="cm">
+                                        <MenuItem Header="Добавить в заказ" x:Name="cmAddInOrder" Click="miAddOrder_Click"/>
+                                    </ContextMenu>
+                                    
+                                </StackPanel.ContextMenu>
+                            </StackPanel>
+
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="5"/>
+            <Button x:Name="butAllOrders" Content="К заказам" Style="{StaticResource Normal}" Visibility="Collapsed"  Grid.Column="1" Grid.Row="1" VerticalAlignment="Top"  Margin="15,336,15,0"  Background="#FFE0C7FF" Click="buttonAllOrder_Click" FontFamily="Advent Pro" />
+            <Button x:Name="butAddProduct" Content="Добавить товар" Style="{StaticResource Normal}" Visibility="Collapsed" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top"   Margin="15,379,15,0"  Background="#FFE0C7FF"  Click="buttonAdd_Click" FontFamily="Advent Pro" />
+        </Grid>
+    </Grid>
+</Window>
